@@ -1,43 +1,46 @@
-const express = require('express');
-const helmet = require('helmet')
-const cors = require('cors');
-const app = express();
+const express = require("express");
+const favicon = require("express-favicon");
+const helmet = require("helmet");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const sslRedirect = require("heroku-ssl-redirect");
 
+const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
+
+const isDev = process.env.NODE_ENV || "dev";
 const port = process.env.PORT || 8080;
-const { getAutoTempestResults } = require('./lib/tempest');
-const { auto } = require('./lib/cron');
+const apiRoutes = require("./routes/api");
+const socketController = require("./controllers/socket.controller");
+
+// -- Middleware and such
+// Favicon
+app.use(favicon(__dirname + "/frontend/build/favicon.ico"));
+
+// Body Parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 app.use(helmet());
-app.disable('x-powered-by');
+app.disable("x-powered-by");
 
-app.get('/getVehicles', async (req, res, next) => {
-    console.log("--------------------");
-    console.log("GETTING VEHICLES");
-    const { params } = req.params;
+// api usage
+app.use("/", apiRoutes);
 
-    const autoTempestResults = await getAutoTempestResults(params);
+// Socket Section
+io.on("connection", socketController.sockets);
 
-    console.log("DONE GETTING VEHICLES");
-    console.log("--------------------\n");
+// For production
+if (isDev !== "dev") {
+	app.use(sslRedirect());
+	app.use(express.static(__dirname));
+	app.use(express.static(path.join(__dirname, "frontend", "build")));
 
-    res.json({
-        vehicles: autoTempestResults
-    })
-});
-
-app.get(`/startCron`, (req, res, next) => {
-    const init = auto("*/10 * * * * *");
-    init.leCron().start();
-
-    return res.json("success");
-});
-
-// async function testing() {
-//     const autoTempestResults = await getAutoTempestResults();
-//     console.log(autoTempestResults);
-// }
-// testing();
-
+	app.get("*", function(req, res) {
+		res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+	});
+}
 
 app.listen(port, () => console.log(`Server started on port: ${port}`));

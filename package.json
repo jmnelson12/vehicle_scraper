@@ -7,8 +7,18 @@
 		"start": "node server.js",
 		"server": "nodemon server.js",
 		"dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "client": "npm start --prefix frontend"
+		"client": "npm start --prefix frontend"
 	},
 	"author": "Jacob Nelson",
-	"license": "ISC"
+	"license": "ISC",
+	"dependencies": {
+		"axios": "^0.18.0",
+		"body-parser": "^1.18.3",
+		"concurrently": "^4.1.0",
+		"express": "^4.16.4",
+		"express-favicon": "^2.0.1",
+		"heroku-ssl-redirect": "^0.0.4",
+		"node-cron": "^2.0.3",
+		"socket.io": "^2.2.0"
+	}
 }
