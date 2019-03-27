@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-
 import "./styles/App.css";
 
-const App = () => {
-	useEffect(() => {
-		const fetchVehicles = async () => {
-			const test = await axios.get("/getVehicles");
-			console.log(test);
-		};
-		fetchVehicles();
-	});
+const Dashboard = React.lazy(() => import("./components/dashboard"));
+const Loading = React.lazy(() => import("./components/loading"));
 
-	return (
-		<div className="App">
-			<h1>App</h1>
-		</div>
-	);
+const App = () => {
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		setIsLoading(false);
+	}, []);
+
+	return <div className="App">{isLoading ? <Loading /> : <Dashboard />}</div>;
 };
 
 export default App;
