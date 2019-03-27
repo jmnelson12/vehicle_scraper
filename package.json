@@ -7,7 +7,8 @@
 		"start": "node server.js",
 		"server": "nodemon server.js",
 		"dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-		"client": "npm start --prefix frontend"
+		"client": "npm start --prefix frontend",
+		"clientBuild": "cd frontend && npm run build && cd ../"
 	},
 	"author": "Jacob Nelson",
 	"license": "ISC",

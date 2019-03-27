@@ -6,8 +6,10 @@ const Error = React.lazy(() => import("./error"));
 
 const Dashboard = () => {
 	const [isLoading, setIsLoading] = useState(true);
-	const [vehicleData, setVehicleData] = useState({});
 	const [errorMessage, setErrorMessage] = useState("");
+
+	// MAKE THIS GLOBAL CONTEXT ?? https://reactjs.org/docs/context.html
+	const [vehicleData, setVehicleData] = useState({});
 
 	useEffect(() => {
 		const fetchVehicles = async () => {
