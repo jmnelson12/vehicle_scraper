@@ -1,23 +1,23 @@
 const { getAutoTempestResults } = require("../lib/tempest");
-const { cronController } = require("../lib/cron");
 
 module.exports = {
 	getVehicles: async (req, res) => {
 		const { params } = req.params;
 		const autoTempestResults = await getAutoTempestResults(params);
-		console.log("Finished");
 
-		res.json({
+		if (!autoTempestResults.success) {
+			return res.json({
+				success: false,
+				message: autoTempestResults.message
+			});
+		}
+
+		return res.json({
+			success: true,
 			vehicles: autoTempestResults
 		});
 	},
-	startCronJob: (req, res) => {
-		// get time string from client
-
-		const cronJob = cronController("*/10 * * * * *");
-		cronJob.toggle.start();
-
-		return res.json("success");
-	},
-	stopCronJob: (req, res) => {}
+	setFavorite: (req, res) => {
+		res.json("Fav Set");
+	}
 };

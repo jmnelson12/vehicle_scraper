@@ -6,13 +6,10 @@ const bodyParser = require("body-parser");
 const sslRedirect = require("heroku-ssl-redirect");
 
 const app = express();
-const server = require("http").Server(app);
-const io = require("socket.io")(server);
 
 const isDev = process.env.NODE_ENV || "dev";
 const port = process.env.PORT || 8080;
 const apiRoutes = require("./routes/api");
-const socketController = require("./controllers/socket.controller");
 
 // -- Middleware and such
 // Favicon
@@ -28,9 +25,6 @@ app.disable("x-powered-by");
 
 // api usage
 app.use("/", apiRoutes);
-
-// Socket Section
-io.on("connection", socketController.sockets);
 
 // For production
 if (isDev !== "dev") {
