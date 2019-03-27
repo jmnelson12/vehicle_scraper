@@ -2,6 +2,7 @@ const express = require("express");
 const favicon = require("express-favicon");
 const helmet = require("helmet");
 const cors = require("cors");
+const path = require("path");
 const bodyParser = require("body-parser");
 const sslRedirect = require("heroku-ssl-redirect");
 
