@@ -29,7 +29,7 @@ app.use("/", apiRoutes);
 
 // For production
 if (isDev !== "dev") {
-	app.use(sslRedirect());
+	// app.use(sslRedirect()); -- uncomment when pushing live live
 	app.use(express.static(__dirname));
 	app.use(express.static(path.join(__dirname, "frontend", "build")));
 
