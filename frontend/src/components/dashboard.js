@@ -33,10 +33,8 @@ const Dashboard = () => {
 				<Loading />
 			) : (
 				<div className="dash">
-					{errorMessage.length > 0 ? (
+					{errorMessage.length > 0 && (
 						<Error message={errorMessage} />
-					) : (
-						""
 					)}
 					Le Dashboard
 					<hr />
