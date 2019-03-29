@@ -1,6 +1,5 @@
 const { getAutoTempestResults } = require("../lib/tempest");
 const { cronController } = require("../lib/cron");
-const util = require("util");
 
 module.exports = {
 	getVehicles: async (req, res) => {
@@ -36,12 +35,9 @@ module.exports = {
 		const canRunCron = await cronController()
 			.init(time)
 			.then(_this => {
-				_this.toggle.start();
+				const hasStarted = _this.toggle.start();
 
-				return {
-					success: true,
-					task: _this.task
-				};
+				return hasStarted;
 			})
 			.catch(err => {
 				return {
@@ -50,6 +46,7 @@ module.exports = {
 				};
 			});
 
+		// no go on the cron start
 		if (!canRunCron.success) {
 			return res.json({
 				success: false,
@@ -57,24 +54,10 @@ module.exports = {
 			});
 		}
 
-		return res.json({
-			success: true,
-			task: util.inspect(canRunCron.task)
-		});
+		return res.json(canRunCron);
 	},
 	stopCron: (req, res) => {
-		const { task } = req.query;
-
-		if (!task) {
-			return res.json({
-				success: false,
-				message: "Error: No task given"
-			});
-		}
-
-		const _task = JSON.parse(task);
-		console.log(_task);
-		//const hasStopped = cronController().toggle.stop(_task);
+		const hasStopped = cronController().toggle.stop();
 
 		return res.json(hasStopped);
 	}
