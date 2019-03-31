@@ -36,7 +36,7 @@ const Dashboard = () => {
 					{errorMessage.length > 0 && (
 						<Error message={errorMessage} />
 					)}
-					Le Dashboard
+					Le Dashboard - Code can be found at <a href="https://github.com/jmnelson12/vehicle_scraper" target="_blank">https://github.com/jmnelson12/vehicle_scraper</a>
 					<hr />
 					<ul>
 						{vehicleData.results.map((vehicle, key) => {
