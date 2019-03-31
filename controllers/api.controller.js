@@ -1,5 +1,6 @@
 const { getAutoTempestResults } = require("../lib/tempest");
 const { cronController } = require("../lib/cron");
+const Vehicle = require("../models/Vehicle");
 
 module.exports = {
 	getVehicles: async (req, res) => {
@@ -19,6 +20,9 @@ module.exports = {
 		});
 	},
 	setFavorite: (req, res) => {
+		const { vehicleData } = req.body;
+
+		console.log(vehicleData);
 		res.json("Fav Set");
 	},
 	startCron: async (req, res) => {
