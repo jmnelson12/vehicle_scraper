@@ -18,17 +18,18 @@ const Dashboard = () => {
 		const fetchVehicles = async () => {
 			setIsLoading(true);
 
-			const result = await getVehicles();
+			const res = await getVehicles();
 
-			if (!result.success) {
-				setErrorMessage(result.message);
+			if (!res.success) {
+				setErrorMessage(res.message);
 			} else {
-				setVehicleData(result.vehicles);
+				setVehicleData(res.vehicles);
 			}
+
 			setIsLoading(false);
 		};
 		fetchVehicles();
-	}, []);
+	}, vehicleData);
 
 	return (
 		<>
@@ -47,6 +48,9 @@ const Dashboard = () => {
 						https://github.com/jmnelson12/vehicle_scraper
 					</a>
 					<hr />
+					<div className="total-results-wrapper">
+						<p>Total Results: {vehicleData.results.length}</p>
+					</div>
 					<ul className="vehicle-list">
 						{vehicleData.results.map((vehicle, key) => {
 							return <ListItem key={key} vehicle={vehicle} />;

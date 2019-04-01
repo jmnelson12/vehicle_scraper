@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { ConfigProvider } from "./utils/context";
 import "./styles/App.css";
 
+const Navbar = React.lazy(() => import("./components/navbar"));
 const Dashboard = React.lazy(() => import("./components/dashboard"));
 const Loading = React.lazy(() => import("./components/loading"));
 
@@ -11,7 +13,23 @@ const App = () => {
 		setIsLoading(false);
 	}, []);
 
-	return <div className="App">{isLoading ? <Loading /> : <Dashboard />}</div>;
+	return (
+		<div className="App">
+			{isLoading ? (
+				<Loading />
+			) : (
+				<>
+					<ConfigProvider
+						user={{
+							firstName: "Jacob"
+						}}>
+						<Navbar />
+						<Dashboard />
+					</ConfigProvider>
+				</>
+			)}
+		</div>
+	);
 };
 
 export default App;

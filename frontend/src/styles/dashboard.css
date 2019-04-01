@@ -1,10 +1,16 @@
+.dash {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
 ul.vehicle-list {
     padding: 15px 0;
     list-style: none;
 }
 
 ul.vehicle-list>li {
-    padding: 15px 18px;
+    padding: 20px 10px;
     border-radius: 2px;
     border-bottom: 1px solid var(--light-gray);
     display: flex;
