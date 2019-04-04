@@ -16,8 +16,16 @@ const App = () => {
 		setIsLoading(false);
 	}, []);
 
+	const handleBodyClick = e => {
+		// If user dropdown is showing, then hide it
+		const userDropdown = document.querySelector(".dropdown-list.show");
+		if (userDropdown) {
+			userDropdown.classList.remove("show");
+		}
+	};
+
 	return (
-		<div className="App">
+		<div className="App" onClick={handleBodyClick}>
 			{isLoading ? (
 				<Loading />
 			) : (
