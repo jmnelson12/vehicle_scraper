@@ -1,7 +1,28 @@
 nav {
     height: 60px;
     box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.4);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    position: relative;
+}
+
+nav>div {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+nav .logo-wrapper {
+    left: 50px;
+}
+
+nav .logo-wrapper a {}
+
+nav .nav-user-wrapper {
+    right: 50px;
+}
+
+/* .dropdown-menu {
+    display: none;
+} */
+.btnAuth {
+    display: none;
 }

@@ -1,6 +1,7 @@
 import React from "react";
-import "../styles/navbar.css";
+import { Link } from "react-router-dom";
 import Consumer from "../utils/context";
+import "../styles/navbar.css";
 
 const Navbar = () => {
 	return (
@@ -10,16 +11,19 @@ const Navbar = () => {
 				return (
 					<nav>
 						<div className="logo-wrapper">
-							<a href="/">Vehicle Search</a>
+							<Link to="/">Home</Link>
 						</div>
 						<div className="nav-user-wrapper">
-							<a href="/">Login</a>
-							<a href="/">Sign Up</a>
+							<button className="btnAuth">Login</button>
+							<button className="btnAuth">Sign Up</button>
 
 							<div className="dropdown-menu">
-								<a href="/" className="dropdown-item">
+								<Link to="/favorites" className="dropdown-item">
 									Favorites
-								</a>
+								</Link>
+								<button className="dropdown-item">
+									Logout
+								</button>
 							</div>
 						</div>
 					</nav>
