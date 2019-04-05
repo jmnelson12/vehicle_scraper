@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[6],{52:function(n,e,o){"use strict";o.r(e);var t=o(0),r=o.n(t);e.default=function(){return r.a.createElement("h1",null,"Sorry, page not found. Le 404")}}}]);
-//# sourceMappingURL=6.42af73ce.chunk.js.map
