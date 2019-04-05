@@ -36,7 +36,12 @@ const Dashboard = () => {
 			) : (
 				<div className="dash">
 					{errorMessage.length > 0 && (
-						<Error message={errorMessage} />
+						<Error
+							messageData={{
+								type: "error",
+								message: errorMessage
+							}}
+						/>
 					)}
 					Le Dashboard - Code can be found at{" "}
 					<a

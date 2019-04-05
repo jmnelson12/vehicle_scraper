@@ -1,9 +1,10 @@
 import React from "react";
 
-const Error = ({ message }) => {
+const Error = ({ messageData }) => {
 	return (
-		<div className="error-msg">
-			<p>{message}</p>
+		<div
+			className={messageData.type === "error" ? "error-msg" : "norm-msg"}>
+			<p>{messageData.message}</p>
 		</div>
 	);
 };

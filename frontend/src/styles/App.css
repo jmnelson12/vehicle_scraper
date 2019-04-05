@@ -1,12 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Heebo');
 
 :root {
+    --black: #2C3338;
     --dark-blue: #2D3E50;
     --medium-blue: #425B73;
     --light-blue: #1EBCA5;
     --light-gray: #EAF0F6;
     --white: #F9FBFD;
     --orange: #F97600;
+    --light-pink: #EA4C88;
+    --green: #28a745;
+    --red: #dc3545;
 }
 
 *,
@@ -43,4 +47,19 @@ a {
     margin: 0 auto;
     text-align: center;
     transform: translateY(-50%);
+}
+
+.error-msg,
+.norm-msg {
+    margin-bottom: 5px;
+}
+
+.error-msg p {
+    color: var(--red);
+    text-align: center;
+}
+
+.norm-msg p {
+    color: var(--green);
+    text-align: center;
 }

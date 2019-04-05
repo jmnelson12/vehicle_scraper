@@ -26,10 +26,6 @@ const UserSchema = new mongoose.Schema({
 	favoriteVehicles: {
 		type: Array,
 		default: []
-	},
-	isDeleted: {
-		type: Boolean,
-		default: false
 	}
 });
 

@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// Vehicle Section
 const getVehicles = async params => {
 	// TODO: implement params
 	try {
@@ -23,56 +24,151 @@ const getVehicles = async params => {
 	}
 };
 
-export { getVehicles };
+// User Auth Section
+const login = async ({ email, password }) => {
+	if (!email && !password) {
+		return {
+			success: false,
+			message: "Please fill in your email and password"
+		};
+	}
 
-// Example CUSTOM HOOK
-/*
+	if (!email) {
+		return {
+			success: false,
+			message: "Please enter your email"
+		};
+	}
 
------ Custom Hook -----
-const useHackerNewsApi = () => {
-  const [data, setData] = useState({ hits: [] });
-  const [url, setUrl] = useState(
-    'http://hn.algolia.com/api/v1/search?query=redux',
-  );
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+	if (!password) {
+		return {
+			success: false,
+			message: "Please enter your password"
+		};
+	}
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsError(false);
-      setIsLoading(true);
+	try {
+		const response = await axios.post("/login", {
+			email,
+			password
+		});
+		return response.data;
+	} catch (e) {
+		return {
+			success: false,
+			message: "Error calling login endpoint"
+		};
+	}
+};
+const logout = async token => {
+	if (!token) {
+		return {
+			success: false,
+			message: "No user token found"
+		};
+	}
 
-      try {
-        const result = await axios(url);
+	try {
+		const response = await axios.get("/logout?token=" + token);
+		return response.data;
+	} catch (e) {
+		return {
+			success: false,
+			message: "Error calling logout endpoint"
+		};
+	}
+};
+const register = async userData => {
+	const { firstName, lastName, email, password, password2 } = userData;
 
-        setData(result.data);
-      } catch (error) {
-        setIsError(true);
-      }
+	if (!email && !password && !firstName && !lastName) {
+		return {
+			success: false,
+			message: "Please enter your information in the fields below"
+		};
+	}
 
-      setIsLoading(false);
-    };
+	if (!email) {
+		return {
+			success: false,
+			message: "Please enter your email"
+		};
+	}
 
-    fetchData();
-  }, [url]);
+	if (!password) {
+		return {
+			success: false,
+			message: "Please enter your password"
+		};
+	}
 
-  const doFetch = () => {
-    setUrl(`http://hn.algolia.com/api/v1/search?query=${query}`);
-  };
+	if (!password2 || password !== password2) {
+		return {
+			success: false,
+			message: "Passwords must match"
+		};
+	}
 
-  return { data, isLoading, isError, doFetch };
-}
+	if (!firstName) {
+		return {
+			success: false,
+			message: "Please enter your first name"
+		};
+	}
 
------ puting to use -----
-function App() {
-  const [query, setQuery] = useState('redux');
-  const { data, isLoading, isError, doFetch } = useHackerNewsApi();
+	if (!lastName) {
+		return {
+			success: false,
+			message: "Please enter your last name"
+		};
+	}
 
-  return (
-    <Fragment>
-      ...
-    </Fragment>
-  );
-}
+	try {
+		const response = await axios.post("/register", userData);
+		return response.data;
+	} catch (e) {
+		return {
+			success: false,
+			message: "Error calling register endpoint"
+		};
+	}
+};
+const verify = async token => {
+	if (!token) {
+		return {
+			success: false,
+			message: "No user token found"
+		};
+	}
 
-*/
+	try {
+		const response = await axios.get("/verify?token=" + token);
+		return response.data;
+	} catch (e) {
+		return {
+			success: false,
+			message: "Error calling verify endpoint"
+		};
+	}
+};
+const deleteUser = async email => {
+	if (!email) {
+		return {
+			success: false,
+			message: "No email found"
+		};
+	}
+
+	try {
+		const response = await axios.delete("/delete", { email });
+		return response.data;
+	} catch (e) {
+		return {
+			success: false,
+			message: "Error calling deleteUser endpoint"
+		};
+	}
+};
+
+// Export
+export { getVehicles, login, logout, register, verify, deleteUser };
