@@ -315,33 +315,42 @@ module.exports = {
 			});
 		},
 		delete: (req, res) => {
-			const { email } = req.body;
+			const { token } = req.query;
 
-			if (!email) {
+			if (!token) {
 				return res.send({
 					success: false,
-					message: "No email given"
+					message: "No token given"
 				});
 			}
 
-			User.findOneAndDelete({ email }, (err, doc) => {
+			UserSession.findByIdAndDelete(token, (err, session) => {
 				if (err) {
 					return res.send({
 						success: false,
-						message: "Error deleting user"
+						message: "Server Error"
 					});
 				}
 
-				if (!doc || doc.length === 0) {
+				User.findByIdAndDelete(session.userId, (err, doc) => {
+					if (err) {
+						return res.send({
+							success: false,
+							message: "Error deleting user"
+						});
+					}
+
+					if (!doc || doc.length === 0) {
+						return res.send({
+							success: false,
+							message: "Invalid token"
+						});
+					}
+
 					return res.send({
-						success: false,
-						message: "Invalid email"
+						success: true,
+						message: "User Deleted"
 					});
-				}
-
-				return res.send({
-					success: true,
-					message: "User Deleted"
 				});
 			});
 		}

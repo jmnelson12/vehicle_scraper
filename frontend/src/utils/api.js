@@ -64,7 +64,7 @@ const logout = async token => {
 	if (!token) {
 		return {
 			success: false,
-			message: "No user token found"
+			message: "Error logging out user"
 		};
 	}
 
@@ -137,7 +137,7 @@ const verify = async token => {
 	if (!token) {
 		return {
 			success: false,
-			message: "No user token found"
+			message: "Erro verifying user"
 		};
 	}
 
@@ -151,16 +151,16 @@ const verify = async token => {
 		};
 	}
 };
-const deleteUser = async email => {
-	if (!email) {
+const deleteUser = async token => {
+	if (!token) {
 		return {
 			success: false,
-			message: "No email found"
+			message: "Error deleting user"
 		};
 	}
 
 	try {
-		const response = await axios.delete("/delete", { email });
+		const response = await axios.delete("/deleteUser?token=" + token);
 		return response.data;
 	} catch (e) {
 		return {

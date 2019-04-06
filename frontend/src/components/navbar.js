@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { logout } from "../utils/api";
+import { logout, deleteUser } from "../utils/api";
 import {
 	getFromStorage,
 	removeFromStorage,
@@ -28,7 +28,7 @@ const Navbar = ({ handleUserClick }) => {
 			const { token } = getFromStorage(storage_key);
 
 			if (!token) {
-				// error message
+				setMessage({ type: "error", message: "Error logging out" });
 			} else {
 				logout(token).then(res => {
 					if (!res.success) {
@@ -40,6 +40,37 @@ const Navbar = ({ handleUserClick }) => {
 						removeFromStorage(storage_key);
 						ctx.setUserLoggedIn(false);
 						ctx.setUserData({});
+						setMessage({ type: "norm", message: res.message });
+					}
+				});
+			}
+		}
+	};
+
+	const handleUserDelete = ctx => {
+		/* eslint-disable */
+		var c = confirm("Are you sure you want to delete your account?");
+		/* eslint-enable */
+		if (c) {
+			const { token } = getFromStorage(storage_key);
+
+			if (!token) {
+				setMessage({ type: "error", message: "Error deleting user" });
+			} else {
+				deleteUser(token).then(res => {
+					if (!res.success) {
+						setMessage({
+							type: "error",
+							message: res.message
+						});
+					} else {
+						removeFromStorage(storage_key);
+						ctx.setUserLoggedIn(false);
+						ctx.setUserData({});
+						setMessage({
+							type: "norm",
+							message: res.message
+						});
 					}
 				});
 			}
@@ -102,6 +133,13 @@ const Navbar = ({ handleUserClick }) => {
 											}}
 											className="dropdown-item">
 											Logout
+										</button>
+										<button
+											onClick={() => {
+												handleUserDelete(ctx);
+											}}
+											className="dropdown-item">
+											Delete User
 										</button>
 									</div>
 								</div>
