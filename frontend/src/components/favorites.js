@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Consumer from "../utils/context";
+
 import "../styles/favorites.css";
 const ListItem = React.lazy(() => import("./list-item"));
 const Loading = React.lazy(() => import("./loading"));

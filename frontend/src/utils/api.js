@@ -24,6 +24,19 @@ const getVehicles = async params => {
 	}
 };
 
+const setFavorite = async ({ vin, eID, id }) => {
+	// vin is the vin number of the vehicle
+	// eID is the external id of the vehicle
+	// id is the id given to the vehicle obj from the external api
+
+	if (!vin && !eID && !id) {
+		return {
+			success: false,
+			message: "Vehilce not found"
+		};
+	}
+};
+
 // User Auth Section
 const login = async ({ email, password }) => {
 	if (!email && !password) {
