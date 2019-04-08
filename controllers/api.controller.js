@@ -23,10 +23,47 @@ module.exports = {
 			});
 		},
 		setFavorite: (req, res) => {
-			const { vehicleData } = req.body;
+			const { data } = req.body;
+			const { vehicle, token } = data;
 
-			console.log(vehicleData);
-			res.json("Fav Set");
+			if (!data) {
+				return res.send({
+					success: false,
+					message: "Error adding vehicle to favorites"
+				});
+			}
+
+			if (!token) {
+				return res.send({
+					success: false,
+					message: "Error adding vehicle to favorites"
+				});
+			}
+
+			UserSession.findById(token, (err, session) => {
+				if (err) {
+					return res.send({
+						success: false,
+						message: "Server error"
+					});
+				}
+
+				if (!session) {
+					return res.send({
+						success: false,
+						message: "Server error"
+					});
+				}
+
+				const { userId } = session;
+				const newVehicle = new Vehicle(vehicle);
+
+				console.log(newVehicle);
+
+				// User.findByIdAndUpdate(userId, { $set: {}})
+
+				return res.send("success");
+			});
 		}
 	},
 	cron: {
@@ -271,7 +308,7 @@ module.exports = {
 			const { token } = req.query;
 
 			// Verify token
-			UserSession.find({ _id: token }, (err, sessions) => {
+			UserSession.find({ _id: token }, async (err, sessions) => {
 				if (err) {
 					return res.send({
 						success: false,
@@ -288,7 +325,7 @@ module.exports = {
 				} else {
 					const uId = sessions[0].userId;
 
-					User.findById(uId)
+					User.findById(uId, { _id: 0 })
 						.select("firstName lastName email favoriteVehicles")
 						.exec((err, user) => {
 							if (err) {

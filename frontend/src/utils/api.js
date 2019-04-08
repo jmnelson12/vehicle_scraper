@@ -24,15 +24,28 @@ const getVehicles = async params => {
 	}
 };
 
-const setFavorite = async ({ vin, eID, id }) => {
+const setFavorite = async ({ vehicle, token }) => {
 	// vin is the vin number of the vehicle
 	// eID is the external id of the vehicle
 	// id is the id given to the vehicle obj from the external api
 
-	if (!vin && !eID && !id) {
+	if (!vehicle && !token) {
 		return {
 			success: false,
 			message: "Vehilce not found"
+		};
+	}
+
+	try {
+		const response = await axios.post("/setFavorite", {
+			data: { vehicle, token }
+		});
+
+		return response.data;
+	} catch (e) {
+		return {
+			success: false,
+			message: "Error calling setFavorite endpoint"
 		};
 	}
 };
@@ -184,4 +197,12 @@ const deleteUser = async token => {
 };
 
 // Export
-export { getVehicles, login, logout, register, verify, deleteUser };
+export {
+	getVehicles,
+	setFavorite,
+	login,
+	logout,
+	register,
+	verify,
+	deleteUser
+};

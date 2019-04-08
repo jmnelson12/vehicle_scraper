@@ -3,6 +3,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Consumer from "../utils/context";
+import { setFavorite } from "../utils/api";
+import { getFromStorage, storage_key } from "../utils/storage";
 
 library.add(faStar);
 
@@ -10,7 +12,12 @@ const ListItem = ({ vehicle }) => {
 	const [isFavStarSelected, setIsFavStarSelected] = useState(false);
 
 	const handleFavoriteClick = ctx => {
+		const { token } = getFromStorage(storage_key);
+
 		// Call to API
+		setFavorite({ vehicle, token }).then(res => {
+			console.log(res);
+		});
 
 		// Change Star Fill
 		setIsFavStarSelected(!isFavStarSelected);
@@ -28,19 +35,21 @@ const ListItem = ({ vehicle }) => {
 								<img src={vehicle.img} alt={vehicle.title} />
 							</div>
 							<div className="v-info-wrapper">
-								<div className="v-star-wrapper">
-									<FontAwesomeIcon
-										icon={faStar}
-										onClick={() => {
-											handleFavoriteClick(ctx);
-										}}
-										className={
-											isFavStarSelected
-												? "solid"
-												: "outline"
-										}
-									/>
-								</div>
+								{ctx.userLoggedIn && (
+									<div className="v-star-wrapper">
+										<FontAwesomeIcon
+											icon={faStar}
+											onClick={() => {
+												handleFavoriteClick(ctx);
+											}}
+											className={
+												isFavStarSelected
+													? "solid"
+													: "outline"
+											}
+										/>
+									</div>
+								)}
 								<div className="v-title-wrapper">
 									<a
 										href={vehicle.url || "#"}
