@@ -72,21 +72,23 @@ const Dashboard = () => {
 											ctx.userData.favoriteVehicles;
 										let isFav = false;
 
-										favVehicles.forEach(entry => {
-											const {
-												vin: e_vin,
-												id: e_id,
-												external_id: e_eId
-											} = entry;
+										if (favVehicles) {
+											favVehicles.forEach(entry => {
+												const {
+													vin: e_vin,
+													id: e_id,
+													external_id: e_eId
+												} = entry;
 
-											if (
-												e_vin === v_vin &&
-												e_id === v_id &&
-												e_eId === v_eId
-											) {
-												isFav = true;
-											}
-										});
+												if (
+													e_vin === v_vin &&
+													e_id === v_id &&
+													e_eId === v_eId
+												) {
+													isFav = true;
+												}
+											});
+										}
 
 										return (
 											<ListItem

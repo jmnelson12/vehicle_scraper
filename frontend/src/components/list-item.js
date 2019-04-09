@@ -3,7 +3,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Consumer from "../utils/context";
-import { setFavorite } from "../utils/api";
+import { setFavorite, removeFavorite } from "../utils/api";
 import { getFromStorage, storage_key } from "../utils/storage";
 
 library.add(faStar);
@@ -34,7 +34,31 @@ const ListItem = ({ vehicle, isFav }) => {
 			});
 		} else {
 			// remove favorite
-			console.log("remove fav");
+			removeFavorite({ vehicle, token }).then(res => {
+				if (res.success) {
+					//Change Star Fill
+					setIsFavStarSelected(!isFavStarSelected);
+					// update context
+					let newData = ctx.userData;
+					newData.favoriteVehicles = newData.favoriteVehicles.filter(
+						obj => {
+							const { vin, id, external_id } = obj;
+							const {
+								vin: r_vin,
+								id: r_id,
+								external_id: r_eId
+							} = res.payload;
+							return (
+								vin !== r_vin &&
+								id !== r_id &&
+								external_id !== r_eId
+							);
+						}
+					);
+
+					ctx.setUserData(newData);
+				}
+			});
 		}
 	};
 
@@ -76,7 +100,7 @@ const ListItem = ({ vehicle, isFav }) => {
 								</div>
 								<div className="v-inner-info-wrapper">
 									<div className="v-mileage">
-										<p>{vehicle.mileage}</p>
+										<p>{vehicle.mileage} miles</p>
 									</div>
 									<div className="v-posted">
 										<p>{vehicle.date}</p>

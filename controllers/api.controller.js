@@ -33,7 +33,7 @@ module.exports = {
 				});
 			}
 
-			if (!token) {
+			if (!token || !vehicle) {
 				return res.send({
 					success: false,
 					message: "Error adding vehicle to favorites"
@@ -73,6 +73,54 @@ module.exports = {
 							success: true,
 							message: "Success",
 							payload: newVehicle
+						});
+					}
+				);
+			});
+		},
+		removeFavorite: (req, res) => {
+			const { vehicle, token } = req.body;
+
+			if (!token || !vehicle) {
+				return res.send({
+					success: false,
+					message: "Error removing vehicle from favorites"
+				});
+			}
+
+			UserSession.findById(token, (err, session) => {
+				if (err) {
+					return res.send({
+						success: false,
+						message: "Server error"
+					});
+				}
+
+				if (!session) {
+					return res.send({
+						success: false,
+						message: "Server error"
+					});
+				}
+
+				const { userId } = session;
+				const { vin, id, external_id } = vehicle;
+
+				User.findByIdAndUpdate(
+					userId,
+					{ $pull: { favoriteVehicles: { vin, id, external_id } } },
+					(err, user) => {
+						if (err) {
+							return res.send({
+								success: false,
+								message: "Server error"
+							});
+						}
+
+						return res.send({
+							success: true,
+							message: "Success",
+							payload: { vin, id, external_id }
 						});
 					}
 				);

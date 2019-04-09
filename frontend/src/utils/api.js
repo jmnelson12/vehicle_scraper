@@ -23,12 +23,7 @@ const getVehicles = async params => {
 		};
 	}
 };
-
 const setFavorite = async ({ vehicle, token }) => {
-	// vin is the vin number of the vehicle
-	// eID is the external id of the vehicle
-	// id is the id given to the vehicle obj from the external api
-
 	if (!vehicle && !token) {
 		return {
 			success: false,
@@ -46,6 +41,27 @@ const setFavorite = async ({ vehicle, token }) => {
 		return {
 			success: false,
 			message: "Error calling setFavorite endpoint"
+		};
+	}
+};
+const removeFavorite = async ({ vehicle, token }) => {
+	if (!vehicle && !token) {
+		return {
+			success: false,
+			message: "Vehilce not found"
+		};
+	}
+
+	try {
+		const response = await axios.delete("/removeFavorite", {
+			data: { vehicle, token }
+		});
+
+		return response.data;
+	} catch (e) {
+		return {
+			success: false,
+			message: "Error calling removeFavorite endpoint"
 		};
 	}
 };
@@ -200,6 +216,7 @@ const deleteUser = async token => {
 export {
 	getVehicles,
 	setFavorite,
+	removeFavorite,
 	login,
 	logout,
 	register,

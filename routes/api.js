@@ -5,6 +5,7 @@ const apiCtrl = require("../controllers/api.controller");
 // Vehicle endpoints
 router.route(`/getVehicles`).get(apiCtrl.vehicles.getVehicles);
 router.route(`/setFavorite`).post(apiCtrl.vehicles.setFavorite);
+router.route(`/removeFavorite`).delete(apiCtrl.vehicles.removeFavorite);
 
 // Cron job endpoints
 // router.route(`/startCron`).get(apiCtrl.startCron);

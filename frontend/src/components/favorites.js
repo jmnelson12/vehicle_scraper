@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Consumer from "../utils/context";
 
-import "../styles/favorites.css";
+import "../styles/dashboard.css";
 const ListItem = React.lazy(() => import("./list-item"));
 const Loading = React.lazy(() => import("./loading"));
-const Error = React.lazy(() => import("./error"));
 
 const Favorites = () => {
 	const [isLoading, setIsLoading] = useState(true);
-	const [errorMessage, setErrorMessage] = useState("");
-	const [favoriteData, setFavoriteData] = useState({});
 
 	useEffect(() => {
 		const fetchFavorites = async () => {
@@ -20,7 +17,33 @@ const Favorites = () => {
 
 	return (
 		<>
-			{isLoading ? <Loading /> : <div className="favs">Le Favorites</div>}
+			{isLoading ? (
+				<Loading />
+			) : (
+				<Consumer>
+					{ctx => (
+						<div className="favs">
+							Favorite Vehicles
+							<hr />
+							<div className="total-results-wrapper">
+								<ul className="vehicle-list">
+									{ctx.userData.favoriteVehicles.map(
+										(vehicle, key) => {
+											return (
+												<ListItem
+													key={key}
+													vehicle={vehicle}
+													isFav={true}
+												/>
+											);
+										}
+									)}
+								</ul>
+							</div>
+						</div>
+					)}
+				</Consumer>
+			)}
 		</>
 	);
 };
