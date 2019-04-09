@@ -58,11 +58,24 @@ module.exports = {
 				const { userId } = session;
 				const newVehicle = new Vehicle(vehicle);
 
-				console.log(newVehicle);
+				User.findByIdAndUpdate(
+					userId,
+					{ $push: { favoriteVehicles: newVehicle } },
+					(err, user) => {
+						if (err) {
+							return res.send({
+								success: false,
+								message: "Server error"
+							});
+						}
 
-				// User.findByIdAndUpdate(userId, { $set: {}})
-
-				return res.send("success");
+						return res.send({
+							success: true,
+							message: "Success",
+							payload: newVehicle
+						});
+					}
+				);
 			});
 		}
 	},

@@ -48,13 +48,12 @@ ul.vehicle-list>li:hover {
 }
 
 .v-star-wrapper .solid path {
-    fill: var(--yellow);
-    stroke: var(--orange);
+    fill: var(--medium-blue);
     stroke: none;
 }
 
 .v-star-wrapper .outline path {
     fill: transparent;
-    stroke: var(--orange);
+    stroke: var(--medium-blue);
     stroke-width: 28px;
 }

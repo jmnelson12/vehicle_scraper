@@ -8,21 +8,34 @@ import { getFromStorage, storage_key } from "../utils/storage";
 
 library.add(faStar);
 
-const ListItem = ({ vehicle }) => {
-	const [isFavStarSelected, setIsFavStarSelected] = useState(false);
+const ListItem = ({ vehicle, isFav }) => {
+	const [isFavStarSelected, setIsFavStarSelected] = useState(isFav);
 
 	const handleFavoriteClick = ctx => {
 		const { token } = getFromStorage(storage_key);
 
-		// Call to API
-		setFavorite({ vehicle, token }).then(res => {
-			console.log(res);
-		});
+		if (!isFavStarSelected) {
+			// Set Favorite
+			// Call to API
+			setFavorite({ vehicle, token }).then(res => {
+				if (res.success) {
+					// Change Star Fill
+					setIsFavStarSelected(!isFavStarSelected);
 
-		// Change Star Fill
-		setIsFavStarSelected(!isFavStarSelected);
+					// update context
+					let newData = ctx.userData;
+					newData.favoriteVehicles = [
+						res.payload,
+						...newData.favoriteVehicles
+					];
 
-		console.log(ctx, vehicle);
+					ctx.setUserData(newData);
+				}
+			});
+		} else {
+			// remove favorite
+			console.log("remove fav");
+		}
 	};
 
 	return (

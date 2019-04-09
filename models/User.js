@@ -25,7 +25,8 @@ const UserSchema = new mongoose.Schema({
 	},
 	favoriteVehicles: {
 		type: Array,
-		default: []
+		default: [],
+		unique: true
 	}
 });
 
