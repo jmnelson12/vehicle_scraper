@@ -2,9 +2,45 @@ import axios from "axios";
 
 // Vehicle Section
 const getVehicles = async params => {
-	// TODO: implement params
+	// params so far are make, model, zip, radius
+	const { make, model, zip, radius } = params;
+	const zipRegex = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
+
+	if (make === "") {
+		return {
+			success: false,
+			message: "Please select the make of the vehicle"
+		};
+	}
+	if (model === "") {
+		return {
+			success: false,
+			message: "Please select the model of the vehicle"
+		};
+	}
+	if (zip === "") {
+		return {
+			success: false,
+			message: "Please enter your zip code"
+		};
+	}
+	if (!zipRegex.test(zip)) {
+		return {
+			success: false,
+			message: "Invalid Zip Code"
+		};
+	}
+	if (radius === "") {
+		return {
+			success: false,
+			message: "Please select a radius"
+		};
+	}
+
 	try {
-		const { data } = await axios.get("/getVehicles");
+		const { data } = await axios.get("/getVehicles", {
+			params: { make, model, zip, radius }
+		});
 
 		if (!data.success) {
 			return {
@@ -62,6 +98,35 @@ const removeFavorite = async ({ vehicle, token }) => {
 		return {
 			success: false,
 			message: "Error calling removeFavorite endpoint"
+		};
+	}
+};
+const getMakes = async () => {
+	try {
+		const response = await axios.get("/getMakes");
+		return response.data;
+	} catch (e) {
+		return {
+			success: false,
+			message: "Error calling getMakes endpoint"
+		};
+	}
+};
+const getModels = async make => {
+	if (!make) {
+		return {
+			success: false,
+			message: "Models not found"
+		};
+	}
+
+	try {
+		const response = await axios.get("/getModels", { params: { make } });
+		return response.data;
+	} catch (e) {
+		return {
+			success: false,
+			message: "Error calling getModels endpoint"
 		};
 	}
 };
@@ -217,6 +282,8 @@ export {
 	getVehicles,
 	setFavorite,
 	removeFavorite,
+	getMakes,
+	getModels,
 	login,
 	logout,
 	register,

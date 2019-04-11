@@ -1,34 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { getVehicles } from "../utils/api";
 import Consumer from "../utils/context";
 
 import "../styles/dashboard.css";
 
-const ListItem = React.lazy(() => import("./list-item"));
 const Loading = React.lazy(() => import("./loading"));
 const Error = React.lazy(() => import("./error"));
+const VehicleSearch = React.lazy(() => import("./vehicle-search"));
+const ListItem = React.lazy(() => import("./list-item"));
 
 const Dashboard = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [errorMessage, setErrorMessage] = useState("");
-	const [vehicleData, setVehicleData] = useState({});
 
 	useEffect(() => {
-		const fetchVehicles = async () => {
-			setIsLoading(true);
+		setIsLoading(false);
+	}, []);
 
-			const res = await getVehicles();
+	const handleErrorMessage = msg => {
+		setErrorMessage(msg);
+	};
 
-			if (!res.success) {
-				setErrorMessage(res.message);
-			} else {
-				setVehicleData(res.vehicles);
-			}
-
-			setIsLoading(false);
-		};
-		fetchVehicles();
-	}, vehicleData);
+	const handleLoading = bool => {
+		setIsLoading(bool);
+	};
 
 	return (
 		<>
@@ -39,6 +33,10 @@ const Dashboard = () => {
 					{ctx => {
 						return (
 							<div className="dash">
+								<VehicleSearch
+									errorHandler={handleErrorMessage}
+									loadingHandler={handleLoading}
+								/>
 								{errorMessage.length > 0 && (
 									<Error
 										messageData={{
@@ -57,12 +55,11 @@ const Dashboard = () => {
 								<hr />
 								<div className="total-results-wrapper">
 									<p>
-										Total Results:{" "}
-										{vehicleData.results.length}
+										Total Results: {ctx.vehicleData.length}
 									</p>
 								</div>
 								<ul className="vehicle-list">
-									{vehicleData.results.map((vehicle, key) => {
+									{ctx.vehicleData.map((vehicle, key) => {
 										const {
 											vin: v_vin,
 											id: v_id,

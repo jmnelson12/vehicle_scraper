@@ -1,4 +1,8 @@
-const { getAutoTempestResults } = require("../lib/tempest");
+const {
+	getAutoTempestResults,
+	getMakes,
+	getModels
+} = require("../lib/tempest");
 const { cronController } = require("../lib/cron");
 const User = require("../models/User");
 const UserSession = require("../models/UserSession");
@@ -7,17 +11,55 @@ const Vehicle = require("../models/Vehicle");
 module.exports = {
 	vehicles: {
 		getVehicles: async (req, res) => {
-			const { params } = req.params;
-			const autoTempestResults = await getAutoTempestResults(params);
+			const { make, model, zip, radius } = req.query;
+			const zipRegex = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
+
+			if (make === "") {
+				return res.send({
+					success: false,
+					message: "Please select the make of the vehicle"
+				});
+			}
+			if (model === "") {
+				return res.send({
+					success: false,
+					message: "Please select the model of the vehicle"
+				});
+			}
+			if (zip === "") {
+				return res.send({
+					success: false,
+					message: "Please enter your zip code"
+				});
+			}
+			if (!zipRegex.test(zip)) {
+				return res.send({
+					success: false,
+					message: "Invalid Zip Code"
+				});
+			}
+			if (radius === "") {
+				return res.send({
+					success: false,
+					message: "Please select a radius"
+				});
+			}
+
+			const autoTempestResults = await getAutoTempestResults({
+				make,
+				model,
+				zip,
+				radius
+			});
 
 			if (!autoTempestResults.success) {
-				return res.json({
+				return res.send({
 					success: false,
 					message: autoTempestResults.message
 				});
 			}
 
-			return res.json({
+			return res.send({
 				success: true,
 				vehicles: autoTempestResults
 			});
@@ -125,6 +167,25 @@ module.exports = {
 					}
 				);
 			});
+		},
+		getMakes: async (req, res) => {
+			const vehicleMakes = await getMakes();
+
+			return res.send(vehicleMakes);
+		},
+		getModels: async (req, res) => {
+			const { make } = req.query;
+
+			if (!make) {
+				return res.send({
+					success: false,
+					message: "Make not found"
+				});
+			}
+
+			const vehicleModels = await getModels(make);
+
+			return res.send(vehicleModels);
 		}
 	},
 	cron: {
