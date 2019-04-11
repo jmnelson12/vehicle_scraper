@@ -54,9 +54,10 @@ const Dashboard = () => {
 								</a>
 								<hr />
 								<div className="total-results-wrapper">
+									{/*
 									<p>
 										Total Results: {ctx.vehicleData.length}
-									</p>
+									</p> */}
 								</div>
 								<ul className="vehicle-list">
 									{ctx.vehicleData.map((vehicle, key) => {
