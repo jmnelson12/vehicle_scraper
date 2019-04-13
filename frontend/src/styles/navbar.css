@@ -1,124 +1,126 @@
 nav {
-    height: 60px;
-    box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.4);
-    position: relative;
-    background-color: var(--black);
+	height: 60px;
+	box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.4);
+	position: relative;
+	background-color: var(--black);
 }
 
-nav>div {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+nav > div {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
 }
 
 nav .logo-wrapper {
-    left: 50px;
+	left: 50px;
 }
 
 nav .logo-wrapper a {
-    color: var(--white);
-    font-size: 24px;
+	color: var(--white);
+	font-size: 24px;
 }
 
 nav .nav-user-wrapper {
-    right: 30px;
+	float: right;
+	position: relative;
+	z-index: 999;
 }
 
-nav .nav-user-wrapper>button.btnAuth {
-    background-color: transparent;
-    border: 2px solid var(--white);
-    border-radius: 4px;
-    padding: 8px 32px;
-    margin: 0 8px;
-    color: var(--white);
-    cursor: pointer;
-    transition: all 0.6s ease;
+nav .nav-user-wrapper > button.btnAuth {
+	background-color: transparent;
+	border: 2px solid var(--white);
+	border-radius: 4px;
+	padding: 8px 32px;
+	margin: 0 8px;
+	color: var(--white);
+	cursor: pointer;
+	transition: all 0.6s ease;
 }
 
-nav .nav-user-wrapper>button.btnAuth:hover,
-nav .nav-user-wrapper>button.btnAuth:focus,
-nav .nav-user-wrapper>button.btnAuth:active {
-    outline: none;
-    background-color: var(--white);
-    color: var(--medium-blue);
+nav .nav-user-wrapper > button.btnAuth:hover,
+nav .nav-user-wrapper > button.btnAuth:focus,
+nav .nav-user-wrapper > button.btnAuth:active {
+	outline: none;
+	background-color: var(--white);
+	color: var(--medium-blue);
 }
 
 .dropdown-menu {
-    position: relative;
-    padding: 15px;
+	position: relative;
+	padding: 15px;
 }
 
 button.dropdown-toggle {
-    color: var(--white);
-    padding-right: .5em;
-    padding-left: .5em;
-    display: block;
-    border: none;
-    background-color: transparent;
-    font-size: 16px;
-    cursor: pointer;
+	color: var(--white);
+	padding-right: 0.5em;
+	padding-left: 0.5em;
+	display: block;
+	border: none;
+	background-color: transparent;
+	font-size: 16px;
+	cursor: pointer;
 }
 
 button.dropdown-toggle::after {
-    display: inline-block;
-    width: 0;
-    height: 0;
-    margin-left: .4em;
-    vertical-align: .1em;
-    content: "";
-    border-top: .4em solid;
-    border-right: .3em solid transparent;
-    border-bottom: 0;
-    border-left: .3em solid transparent;
+	display: inline-block;
+	width: 0;
+	height: 0;
+	margin-left: 0.4em;
+	vertical-align: 0.1em;
+	content: "";
+	border-top: 0.4em solid;
+	border-right: 0.3em solid transparent;
+	border-bottom: 0;
+	border-left: 0.3em solid transparent;
 }
 
 .dropdown-list {
-    position: absolute;
-    top: 85%;
-    right: 15px;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 10rem;
-    padding: .5rem 0;
-    margin: .125rem 0 0;
-    font-size: 1rem;
-    color: #212529;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, .15);
-    border-radius: .25rem;
+	position: absolute;
+	top: 85%;
+	right: 15px;
+	z-index: 1000;
+	display: none;
+	float: left;
+	min-width: 10rem;
+	padding: 0.5rem 0;
+	margin: 0.125rem 0 0;
+	font-size: 1rem;
+	color: #212529;
+	text-align: left;
+	list-style: none;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: 0.25rem;
 }
 
 .dropdown-menu.show,
 .dropdown-list.show {
-    display: block;
+	display: block;
 }
 
 .dropdown-item {
-    display: block;
-    width: 100%;
-    padding: .25rem 1.5rem;
-    clear: both;
-    font-weight: 400;
-    color: #212529;
-    text-align: inherit;
-    white-space: nowrap;
-    background-color: transparent;
-    border: 0;
-    cursor: pointer;
+	display: block;
+	width: 100%;
+	padding: 0.25rem 1.5rem;
+	clear: both;
+	font-weight: 400;
+	color: #212529;
+	text-align: inherit;
+	white-space: nowrap;
+	background-color: transparent;
+	border: 0;
+	cursor: pointer;
 }
 
 .dropdown-item:focus,
 .dropdown-item:hover {
-    color: #16181b;
-    text-decoration: none;
-    background-color: #f8f9fa;
+	color: #16181b;
+	text-decoration: none;
+	background-color: #f8f9fa;
 }
 
 .error-wrapper {
-    width: 100%;
-    text-align: center;
+	width: 100%;
+	text-align: center;
 }
