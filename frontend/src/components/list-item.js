@@ -66,8 +66,14 @@ const ListItem = ({ vehicle, isFav }) => {
 		<>
 			<Consumer>
 				{ctx => {
+					const { price, mileage, year, distance } = vehicle;
 					return (
-						<li className="list-item">
+						<li
+							className="list-item"
+							data-price={price}
+							data-mileage={mileage}
+							data-year={year}
+							data-distance={distance}>
 							<div className="v-image-wrapper">
 								<img src={vehicle.img} alt={vehicle.title} />
 							</div>

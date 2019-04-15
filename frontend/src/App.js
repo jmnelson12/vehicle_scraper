@@ -83,10 +83,7 @@ const App = () => {
 				<Loading />
 			) : (
 				<>
-					<ConfigProvider
-						user={userData}
-						loggedIn={userLoggedIn}
-						vehicles={[]}>
+					<ConfigProvider user={userData} loggedIn={userLoggedIn}>
 						<Router>
 							<Navbar handleUserClick={handleUserAuthNavClick} />
 							{showLoginModal && (

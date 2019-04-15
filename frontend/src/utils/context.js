@@ -3,10 +3,15 @@ import React, { createContext, useState } from "react";
 
 const { Provider, Consumer } = createContext();
 
-const ConfigProvider = ({ children, user, loggedIn, vehicles }) => {
+const ConfigProvider = ({ children, user, loggedIn }) => {
 	const [userLoggedIn, setUserLoggedIn] = useState(loggedIn);
 	const [userData, setUserData] = useState(user);
-	const [vehicleData, setVehicles] = useState(vehicles);
+	const [vehicleData, setVehicles] = useState([]);
+	const [sortVal, setSortVal] = useState("price_asc");
+	const [make, setMake] = useState("");
+	const [model, setModel] = useState("");
+	const [zip, setZip] = useState("");
+	const [radius, setRadius] = useState("");
 
 	return (
 		<Provider
@@ -16,7 +21,17 @@ const ConfigProvider = ({ children, user, loggedIn, vehicles }) => {
 				userData,
 				setUserData,
 				vehicleData,
-				setVehicles
+				setVehicles,
+				sortVal,
+				setSortVal,
+				make,
+				setMake,
+				model,
+				setModel,
+				zip,
+				setZip,
+				radius,
+				setRadius
 			}}>
 			{children}
 		</Provider>

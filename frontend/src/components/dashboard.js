@@ -31,6 +31,7 @@ const Dashboard = () => {
 			) : (
 				<Consumer>
 					{ctx => {
+						console.log(ctx.vehicleData);
 						return (
 							<div className="dash">
 								<VehicleSearch
@@ -45,19 +46,14 @@ const Dashboard = () => {
 										}}
 									/>
 								)}
-								Le Dashboard - Code can be found at{" "}
-								<a
-									href="https://github.com/jmnelson12/vehicle_scraper"
-									target="_blank"
-									rel="noopener noreferrer">
-									https://github.com/jmnelson12/vehicle_scraper
-								</a>
-								<hr />
 								<div className="total-results-wrapper">
-									{/*
-									<p>
-										Total Results: {ctx.vehicleData.length}
-									</p> */}
+									{ctx.vehicleData &&
+										ctx.vehicleData.length !== 0 && (
+											<p>
+												Total Results:{" "}
+												{ctx.vehicleData.length}
+											</p>
+										)}
 								</div>
 								<ul className="vehicle-list">
 									{ctx.vehicleData.map((vehicle, key) => {
