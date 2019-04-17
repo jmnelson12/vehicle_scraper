@@ -12,6 +12,7 @@ const ConfigProvider = ({ children, user, loggedIn }) => {
 	const [model, setModel] = useState("");
 	const [zip, setZip] = useState("");
 	const [radius, setRadius] = useState("");
+	const [globalError, setGlobalError] = useState("");
 
 	return (
 		<Provider
@@ -20,6 +21,8 @@ const ConfigProvider = ({ children, user, loggedIn }) => {
 				setUserLoggedIn,
 				userData,
 				setUserData,
+				globalError,
+				setGlobalError,
 				vehicleData,
 				setVehicles,
 				sortVal,

@@ -31,6 +31,7 @@ const VehicleSearch = ({ errorHandler, loadingHandler }) => {
 			if (!res.success) {
 				errorHandler(res.message);
 			} else {
+				ctx.setGlobalError("");
 				setModelOptions(res.models);
 			}
 			ctx.setMake(leMake);
@@ -38,22 +39,26 @@ const VehicleSearch = ({ errorHandler, loadingHandler }) => {
 	};
 
 	const handleModelChange = (e, ctx) => {
+		ctx.setGlobalError("");
 		ctx.setModel(e.target.value);
 	};
 	const handleZipChange = (e, ctx) => {
+		ctx.setGlobalError("");
 		ctx.setZip(e.target.value);
 	};
 	const handleRadiusChange = (e, ctx) => {
+		ctx.setGlobalError("");
 		ctx.setRadius(e.target.value);
 	};
 
 	const handleSearch = ctx => {
-		const { make, model, zip, radius } = ctx;
+		const { make, model, zip, radius, sortVal } = ctx;
 		const searchData = {
 			make,
 			model,
 			zip,
-			radius
+			radius,
+			sortVal
 		};
 
 		loadingHandler(true);
@@ -63,6 +68,7 @@ const VehicleSearch = ({ errorHandler, loadingHandler }) => {
 			} else {
 				const { results } = res.vehicles;
 
+				ctx.setGlobalError("");
 				ctx.setVehicles(results);
 			}
 			loadingHandler(false);
@@ -72,7 +78,6 @@ const VehicleSearch = ({ errorHandler, loadingHandler }) => {
 	return (
 		<Consumer>
 			{ctx => {
-				console.log(ctx);
 				return (
 					<>
 						<div className="vehicle-search-wrapper">
@@ -195,7 +200,7 @@ const VehicleSearch = ({ errorHandler, loadingHandler }) => {
 								/>
 							</div>
 						</div>
-						<Sort />
+						<Sort loadingHandler={loadingHandler} />
 					</>
 				);
 			}}

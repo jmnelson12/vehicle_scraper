@@ -31,29 +31,28 @@ const Dashboard = () => {
 			) : (
 				<Consumer>
 					{ctx => {
-						console.log(ctx.vehicleData);
 						return (
 							<div className="dash">
 								<VehicleSearch
 									errorHandler={handleErrorMessage}
 									loadingHandler={handleLoading}
 								/>
-								{errorMessage.length > 0 && (
-									<Error
-										messageData={{
-											type: "error",
-											message: errorMessage
-										}}
-									/>
-								)}
+								{errorMessage.length > 0 ||
+									(ctx.globalError.length > 0 && (
+										<Error
+											messageData={{
+												type: "error",
+												message:
+													errorMessage.length > 0
+														? errorMessage
+														: ctx.globalError
+											}}
+										/>
+									))}
 								<div className="total-results-wrapper">
-									{ctx.vehicleData &&
-										ctx.vehicleData.length !== 0 && (
-											<p>
-												Total Results:{" "}
-												{ctx.vehicleData.length}
-											</p>
-										)}
+									<p>
+										Total Results: {ctx.vehicleData.length}
+									</p>
 								</div>
 								<ul className="vehicle-list">
 									{ctx.vehicleData.map((vehicle, key) => {

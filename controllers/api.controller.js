@@ -11,7 +11,7 @@ const Vehicle = require("../models/Vehicle");
 module.exports = {
 	vehicles: {
 		getVehicles: async (req, res) => {
-			const { make, model, zip, radius } = req.query;
+			const { make, model, zip, radius, sortVal } = req.query;
 			const zipRegex = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
 
 			if (make === "") {
@@ -49,7 +49,8 @@ module.exports = {
 				make,
 				model,
 				zip,
-				radius
+				radius,
+				sortVal
 			});
 
 			if (!autoTempestResults.success) {

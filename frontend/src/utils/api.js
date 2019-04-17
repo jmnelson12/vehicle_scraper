@@ -3,7 +3,7 @@ import axios from "axios";
 // Vehicle Section
 const getVehicles = async params => {
 	// params so far are make, model, zip, radius
-	const { make, model, zip, radius } = params;
+	const { make, model, zip, radius, sortVal } = params;
 	const zipRegex = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
 
 	if (make === "") {
@@ -39,7 +39,7 @@ const getVehicles = async params => {
 
 	try {
 		const { data } = await axios.get("/getVehicles", {
-			params: { make, model, zip, radius }
+			params: { make, model, zip, radius, sortVal }
 		});
 
 		if (!data.success) {
