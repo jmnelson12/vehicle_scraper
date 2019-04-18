@@ -187,6 +187,110 @@ module.exports = {
 			const vehicleModels = await getModels(make);
 
 			return res.send(vehicleModels);
+		},
+		setNotInterested: (req, res) => {
+			const { data } = req.body;
+			const { vehicle, token } = data;
+
+			if (!data) {
+				return res.send({
+					success: false,
+					message: "Error adding vehicle to favorites"
+				});
+			}
+
+			if (!token || !vehicle) {
+				return res.send({
+					success: false,
+					message: "Error adding vehicle to favorites"
+				});
+			}
+
+			UserSession.findById(token, (err, session) => {
+				if (err) {
+					return res.send({
+						success: false,
+						message: "Server error"
+					});
+				}
+
+				if (!session) {
+					return res.send({
+						success: false,
+						message: "Server error"
+					});
+				}
+
+				const { userId } = session;
+				const newVehicle = new Vehicle(vehicle);
+
+				User.findByIdAndUpdate(
+					userId,
+					{ $push: { hiddenVehicles: newVehicle } },
+					(err, user) => {
+						if (err) {
+							return res.send({
+								success: false,
+								message: "Server error"
+							});
+						}
+
+						return res.send({
+							success: true,
+							message: "Success",
+							payload: newVehicle
+						});
+					}
+				);
+			});
+		},
+		removeNotInterested: (req, res) => {
+			const { vehicle, token } = req.body;
+
+			if (!token || !vehicle) {
+				return res.send({
+					success: false,
+					message: "Error removing vehicle from favorites"
+				});
+			}
+
+			UserSession.findById(token, (err, session) => {
+				if (err) {
+					return res.send({
+						success: false,
+						message: "Server error"
+					});
+				}
+
+				if (!session) {
+					return res.send({
+						success: false,
+						message: "Server error"
+					});
+				}
+
+				const { userId } = session;
+				const { vin, id, external_id } = vehicle;
+
+				User.findByIdAndUpdate(
+					userId,
+					{ $pull: { hiddenVehicles: { vin, id, external_id } } },
+					(err, user) => {
+						if (err) {
+							return res.send({
+								success: false,
+								message: "Server error"
+							});
+						}
+
+						return res.send({
+							success: true,
+							message: "Success",
+							payload: { vin, id, external_id }
+						});
+					}
+				);
+			});
 		}
 	},
 	cron: {
@@ -449,7 +553,9 @@ module.exports = {
 					const uId = sessions[0].userId;
 
 					User.findById(uId, { _id: 0 })
-						.select("firstName lastName email favoriteVehicles")
+						.select(
+							"firstName lastName email favoriteVehicles hiddenVehicles"
+						)
 						.exec((err, user) => {
 							if (err) {
 								return res.send({

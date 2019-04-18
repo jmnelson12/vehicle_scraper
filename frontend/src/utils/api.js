@@ -130,6 +130,48 @@ const getModels = async make => {
 		};
 	}
 };
+const setNotInterested = async ({ vehicle, token }) => {
+	if (!vehicle && !token) {
+		return {
+			success: false,
+			message: "Vehilce not found"
+		};
+	}
+
+	try {
+		const response = await axios.post("/setNotInterested", {
+			data: { vehicle, token }
+		});
+
+		return response.data;
+	} catch (e) {
+		return {
+			success: false,
+			message: "Error calling setNotInterested endpoint"
+		};
+	}
+};
+const removeNotInterested = async ({ vehicle, token }) => {
+	if (!vehicle && !token) {
+		return {
+			success: false,
+			message: "Vehilce not found"
+		};
+	}
+
+	try {
+		const response = await axios.delete("/removeNotInterested", {
+			data: { vehicle, token }
+		});
+
+		return response.data;
+	} catch (e) {
+		return {
+			success: false,
+			message: "Error calling removeNotInterested endpoint"
+		};
+	}
+};
 
 // User Auth Section
 const login = async ({ email, password }) => {
@@ -280,6 +322,8 @@ const deleteUser = async token => {
 // Export
 export {
 	getVehicles,
+	setNotInterested,
+	removeNotInterested,
 	setFavorite,
 	removeFavorite,
 	getMakes,

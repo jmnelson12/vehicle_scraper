@@ -27,6 +27,11 @@ const UserSchema = new mongoose.Schema({
 		type: Array,
 		default: [],
 		unique: true
+	},
+	hiddenVehicles: {
+		type: Array,
+		default: [],
+		unique: true
 	}
 });
 

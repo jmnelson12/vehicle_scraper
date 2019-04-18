@@ -63,7 +63,10 @@ const Dashboard = () => {
 										} = vehicle;
 										const favVehicles =
 											ctx.userData.favoriteVehicles;
+										const hiddenVehicles =
+											ctx.userData.hiddenVehicles;
 										let isFav = false;
+										let isHidden = false;
 
 										if (favVehicles) {
 											favVehicles.forEach(entry => {
@@ -82,6 +85,26 @@ const Dashboard = () => {
 												}
 											});
 										}
+
+										if (hiddenVehicles) {
+											hiddenVehicles.forEach(entry => {
+												const {
+													vin: e_vin,
+													id: e_id,
+													external_id: e_eId
+												} = entry;
+
+												if (
+													e_vin === v_vin &&
+													e_id === v_id &&
+													e_eId === v_eId
+												) {
+													isHidden = true;
+												}
+											});
+										}
+
+										if (isHidden) return false;
 
 										return (
 											<ListItem

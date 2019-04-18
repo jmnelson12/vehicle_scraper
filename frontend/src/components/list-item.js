@@ -3,7 +3,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Consumer from "../utils/context";
-import { setFavorite, removeFavorite } from "../utils/api";
+import { setFavorite, removeFavorite, setNotInterested } from "../utils/api";
 import { getFromStorage, storage_key } from "../utils/storage";
 
 library.add(faStar);
@@ -62,6 +62,24 @@ const ListItem = ({ vehicle, isFav }) => {
 		}
 	};
 
+	const handleNotInterestedClick = (e, ctx) => {
+		const { token } = getFromStorage(storage_key);
+		console.log(e.target);
+
+		// setNotInterested({ vehicle, token }).then(res => {
+		// 	if (res.success) {
+		// 		// update context
+		// 		let newData = ctx.userData;
+		// 		newData.hiddenVehicles = [
+		// 			res.payload,
+		// 			...newData.hiddenVehicles
+		// 		];
+
+		// 		ctx.setUserData(newData);
+		// 	}
+		// });
+	};
+
 	return (
 		<>
 			<Consumer>
@@ -79,23 +97,39 @@ const ListItem = ({ vehicle, isFav }) => {
 							</div>
 							<div className="v-info-wrapper">
 								{ctx.userLoggedIn && (
-									<div className="v-star-wrapper">
-										<FontAwesomeIcon
-											icon={faStar}
-											onClick={() => {
-												handleFavoriteClick(ctx);
-											}}
-											className={
-												isFavStarSelected
-													? "solid"
-													: "outline"
-											}
-										/>
-									</div>
+									<>
+										<div
+											className="v-interested-wrapper"
+											onClick={e => {
+												handleNotInterestedClick(
+													e,
+													ctx
+												);
+											}}>
+											<h3>Hide Vehicle</h3>
+										</div>
+										<div className="v-star-wrapper">
+											<FontAwesomeIcon
+												icon={faStar}
+												onClick={() => {
+													handleFavoriteClick(ctx);
+												}}
+												className={
+													isFavStarSelected
+														? "solid"
+														: "outline"
+												}
+											/>
+										</div>
+									</>
 								)}
 								<div className="v-title-wrapper">
 									<a
-										href={vehicle.url || "#"}
+										href={
+											vehicle.url.indexOf("http") === -1
+												? "#"
+												: vehicle.url
+										}
 										target="_blank"
 										rel="noopener noreferrer">
 										<h2>{vehicle.title}</h2>
