@@ -3,13 +3,24 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Consumer from "../utils/context";
-import { setFavorite, removeFavorite, setNotInterested } from "../utils/api";
+import {
+	setFavorite,
+	removeFavorite,
+	setNotInterested,
+	removeNotInterested
+} from "../utils/api";
 import { getFromStorage, storage_key } from "../utils/storage";
 
 library.add(faStar);
 
-const ListItem = ({ vehicle, isFav }) => {
-	const [isFavStarSelected, setIsFavStarSelected] = useState(isFav);
+// favInfo => { isShowing: bool, isFav: bool}
+// hiddenInfo => { isShowing: bool, isHidden: bool}
+const ListItem = ({ vehicle, favInfo, hiddenInfo }) => {
+	const [isFavStarSelected, setIsFavStarSelected] = useState(favInfo.isFav);
+	const [isHiddenSelected, setIsHiddenSelected] = useState(
+		hiddenInfo.isHidden
+	);
+	const [isElShowing, setIsElShowing] = useState(true);
 
 	const handleFavoriteClick = ctx => {
 		const { token } = getFromStorage(storage_key);
@@ -62,22 +73,51 @@ const ListItem = ({ vehicle, isFav }) => {
 		}
 	};
 
-	const handleNotInterestedClick = (e, ctx) => {
+	const handleNotInterestedClick = ctx => {
 		const { token } = getFromStorage(storage_key);
-		console.log(e.target);
 
-		// setNotInterested({ vehicle, token }).then(res => {
-		// 	if (res.success) {
-		// 		// update context
-		// 		let newData = ctx.userData;
-		// 		newData.hiddenVehicles = [
-		// 			res.payload,
-		// 			...newData.hiddenVehicles
-		// 		];
+		setNotInterested({ vehicle, token }).then(res => {
+			if (res.success) {
+				setIsHiddenSelected(!isHiddenSelected);
 
-		// 		ctx.setUserData(newData);
-		// 	}
-		// });
+				// update context
+				let newData = ctx.userData;
+				newData.hiddenVehicles = [
+					res.payload,
+					...newData.hiddenVehicles
+				];
+
+				ctx.setUserData(newData);
+				setIsElShowing(false);
+			}
+		});
+	};
+
+	const handleShowAgain = ctx => {
+		const { token } = getFromStorage(storage_key);
+
+		removeNotInterested({ vehicle, token }).then(res => {
+			if (res.success) {
+				setIsHiddenSelected(!setIsHiddenSelected);
+
+				// update context
+				let newData = ctx.userData;
+				newData.hiddenVehicles = newData.hiddenVehicles.filter(obj => {
+					const { vin, id, external_id } = obj;
+					const {
+						vin: r_vin,
+						id: r_id,
+						external_id: r_eId
+					} = res.payload;
+					return (
+						vin !== r_vin && id !== r_id && external_id !== r_eId
+					);
+				});
+
+				ctx.setUserData(newData);
+				setIsElShowing(false);
+			}
+		});
 	};
 
 	return (
@@ -87,6 +127,7 @@ const ListItem = ({ vehicle, isFav }) => {
 					const { price, mileage, year, distance } = vehicle;
 					return (
 						<li
+							style={{ display: isElShowing ? "flex" : "none" }}
 							className="list-item"
 							data-price={price}
 							data-mileage={mileage}
@@ -98,29 +139,43 @@ const ListItem = ({ vehicle, isFav }) => {
 							<div className="v-info-wrapper">
 								{ctx.userLoggedIn && (
 									<>
-										<div
-											className="v-interested-wrapper"
-											onClick={e => {
-												handleNotInterestedClick(
-													e,
-													ctx
-												);
-											}}>
-											<h3>Hide Vehicle</h3>
-										</div>
-										<div className="v-star-wrapper">
-											<FontAwesomeIcon
-												icon={faStar}
-												onClick={() => {
-													handleFavoriteClick(ctx);
-												}}
-												className={
-													isFavStarSelected
-														? "solid"
-														: "outline"
-												}
-											/>
-										</div>
+										{hiddenInfo.isShowing && (
+											<div
+												className="v-interested-wrapper"
+												onClick={e => {
+													if (isHiddenSelected) {
+														handleShowAgain(ctx);
+													} else {
+														handleNotInterestedClick(
+															ctx
+														);
+													}
+												}}>
+												<h3>
+													{isHiddenSelected
+														? "Show"
+														: "Hide"}{" "}
+													Vehicle
+												</h3>
+											</div>
+										)}
+										{favInfo.isShowing && (
+											<div className="v-star-wrapper">
+												<FontAwesomeIcon
+													icon={faStar}
+													onClick={() => {
+														handleFavoriteClick(
+															ctx
+														);
+													}}
+													className={
+														isFavStarSelected
+															? "solid"
+															: "outline"
+													}
+												/>
+											</div>
+										)}
 									</>
 								)}
 								<div className="v-title-wrapper">

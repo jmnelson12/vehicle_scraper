@@ -127,6 +127,11 @@ const Navbar = ({ handleUserClick }) => {
 											className="dropdown-item">
 											Favorites
 										</Link>
+										<Link
+											to="/hidden"
+											className="dropdown-item">
+											Hidden Vehicles
+										</Link>
 										<button
 											onClick={() => {
 												handleLogout(ctx);

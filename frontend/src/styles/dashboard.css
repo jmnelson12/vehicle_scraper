@@ -58,7 +58,7 @@ ul.vehicle-list > li:hover {
 	bottom: 10px;
 	cursor: pointer;
 	font-size: 16px;
-	color: var(--orange);
+	color: var(--light-gray);
 	border: 1px solid var(--light-gray);
 	padding: 6px 22px;
 	border-radius: 6px;
@@ -68,6 +68,5 @@ ul.vehicle-list > li:hover {
 }
 
 .v-interested-wrapper:hover {
-	color: var(--red);
 	box-shadow: unset;
 }

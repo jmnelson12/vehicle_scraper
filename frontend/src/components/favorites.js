@@ -33,7 +33,14 @@ const Favorites = () => {
 												<ListItem
 													key={key}
 													vehicle={vehicle}
-													isFav={true}
+													favInfo={{
+														isShowing: true,
+														isFav: true
+													}}
+													hiddenInfo={{
+														isShowing: false,
+														isHidden: false
+													}}
 												/>
 											);
 										}

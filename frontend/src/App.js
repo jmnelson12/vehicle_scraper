@@ -15,6 +15,7 @@ const Navbar = React.lazy(() => import("./components/navbar"));
 const ErrorPage = React.lazy(() => import("./components/not-found"));
 const Dashboard = React.lazy(() => import("./components/dashboard"));
 const Favorites = React.lazy(() => import("./components/favorites"));
+const NotInterested = React.lazy(() => import("./components/uninterested"));
 const Login = React.lazy(() => import("./components/login"));
 const SignUp = React.lazy(() => import("./components/signup"));
 
@@ -97,6 +98,10 @@ const App = () => {
 								<Route
 									path="/favorites"
 									component={Favorites}
+								/>
+								<Route
+									path="/hidden"
+									component={NotInterested}
 								/>
 								<Route component={ErrorPage} />
 							</Switch>

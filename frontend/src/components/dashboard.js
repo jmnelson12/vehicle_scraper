@@ -110,7 +110,14 @@ const Dashboard = () => {
 											<ListItem
 												key={key}
 												vehicle={vehicle}
-												isFav={isFav}
+												favInfo={{
+													isShowing: true,
+													isFav
+												}}
+												hiddenInfo={{
+													isShowing: true,
+													isHidden: false
+												}}
 											/>
 										);
 									})}
