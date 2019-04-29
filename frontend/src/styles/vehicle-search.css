@@ -12,6 +12,7 @@
 }
 
 .vehicle-search-wrapper .input-group {
+	background-color: transparent;
 	height: 100%;
 	margin: 0 8px;
 	max-width: 33%;
