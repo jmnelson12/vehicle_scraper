@@ -195,7 +195,11 @@ const ListItem = ({ vehicle, favInfo, hiddenInfo }) => {
 								</div>
 								<div className="v-inner-info-wrapper">
 									<div className="v-mileage">
-										<p>{vehicle.mileage} miles</p>
+										<p>
+											{vehicle.mileage
+												? vehicle.mileage + " miles"
+												: "No Mileage Listed"}
+										</p>
 									</div>
 									<div className="v-posted">
 										<p>{vehicle.date}</p>

@@ -1,9 +1,9 @@
 import React from "react";
 import Consumer from "../utils/context";
 
-import { sortArr } from "../utils/utils";
-
 import "../styles/sort.css";
+
+import { sortArr } from "../utils/utils";
 
 const Sort = ({ loadingHandler }) => {
 	const handleSortChange = (e, ctx) => {
