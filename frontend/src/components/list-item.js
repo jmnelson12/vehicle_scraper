@@ -182,7 +182,8 @@ const ListItem = ({ vehicle, favInfo, hiddenInfo }) => {
 									<a
 										href={
 											vehicle.url.indexOf("http") === -1
-												? "#"
+												? "https://www.autotempest.com" +
+												  vehicle.url
 												: vehicle.url
 										}
 										target="_blank"
@@ -191,7 +192,11 @@ const ListItem = ({ vehicle, favInfo, hiddenInfo }) => {
 									</a>
 								</div>
 								<div className="v-price-wrapper">
-									<h2>{vehicle.price}</h2>
+									<h2>
+										{vehicle.price
+											? vehicle.price
+											: "No Price Listed"}
+									</h2>
 								</div>
 								<div className="v-inner-info-wrapper">
 									<div className="v-mileage">
