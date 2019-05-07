@@ -43,7 +43,7 @@ mongoose
 
 // For production
 if (isDev !== "dev") {
-	// app.use(sslRedirect()); -- uncomment when pushing live live
+	app.use(sslRedirect()); //-- uncomment when pushing live live
 	app.use(express.static(__dirname));
 	app.use(express.static(path.join(__dirname, "frontend", "build")));
 
