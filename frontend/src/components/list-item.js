@@ -139,7 +139,7 @@ const ListItem = ({ vehicle, favInfo, hiddenInfo }) => {
 							<div className="v-info-wrapper">
 								{ctx.userLoggedIn && (
 									<>
-										{hiddenInfo.isShowing && (
+										{/*hiddenInfo.isShowing && (
 											<div
 												className="v-interested-wrapper"
 												onClick={e => {
@@ -158,7 +158,7 @@ const ListItem = ({ vehicle, favInfo, hiddenInfo }) => {
 													Vehicle
 												</h3>
 											</div>
-										)}
+													)*/}
 										{favInfo.isShowing && (
 											<div className="v-star-wrapper">
 												<FontAwesomeIcon
